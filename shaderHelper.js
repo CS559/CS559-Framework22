@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+/*jshint esversion: 11 */
 
 // @ts-check
 
@@ -49,7 +49,8 @@ const errorFragmentShader = `
  * @param {THREE.ShaderMaterial} material
  */
 function loadFragmentShader(url, material) {
-  let loader = new T.FileLoader();
+  const loader = new T.FileLoader();
+
   loader.load(
     url,
     /* onload = */ function(data) {
@@ -72,7 +73,8 @@ function loadFragmentShader(url, material) {
  * @param {THREE.ShaderMaterial} material
  */
 function loadVertexShader(url, material) {
-  let loader = new T.FileLoader();
+  const loader = new T.FileLoader();
+
   loader.load(
     url,
     /* onload = */ function(data) {
@@ -99,14 +101,8 @@ function loadVertexShader(url, material) {
  * @param {THREE.ShaderMaterialParameters} [properties]
  * @returns {THREE.ShaderMaterial}
  */
-export function shaderMaterial(
-  vertexShaderURL,
-  fragmentShaderURL,
-  properties = {}
-) {
-  if (!properties) properties = {};
-
-  let sm = new T.ShaderMaterial(properties);
+export function shaderMaterial(vertexShaderURL, fragmentShaderURL, properties = {}) {
+  const sm = new T.ShaderMaterial(properties);
   // create a default shader until the real ones load
   sm.vertexShader = defaultVertexShader;
   sm.fragmentShader = defaultFragmentShader;

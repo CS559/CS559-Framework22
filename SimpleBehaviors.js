@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+/*jshint esversion: 11 */
 // @ts-check
 
 /**
@@ -20,8 +20,8 @@ import { GrObject } from "./GrObject.js";
  * @param {number} [speed]
  */
 export function spinY(grobj, speed) {
-  let newSpeed = speed ? speed : 0.001;
-  let oldStep = grobj.stepWorld;
+  const newSpeed = speed ?? 0.001;
+  const oldStep = grobj.stepWorld;
   grobj.stepWorld = function(delta, timeOfDay) {
     this.objects.forEach(obj => obj.rotateY(newSpeed * delta));
     oldStep.call(this, delta, timeOfDay);

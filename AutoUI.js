@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+/*jshint esversion: 11 */
 // @ts-check
 
 /**
@@ -47,40 +47,47 @@ export class AutoUI {
    * @param {GrObject} object
    * @param {number} [width=300]
    * @param {InputHelpers.WhereSpec} [where] - where to place the panel in the DOM (at the end of the page by default)
+   * @param {boolean} adjusted - whether adjust the slider length according to the label length
+   * @param {string} display - align type of the label and slider
    */
-  constructor(object, width = 300, where = undefined, widthdiv=1) {
-    let self = this;
+  constructor(object, width = 300, where = undefined, widthdiv = 1, adjusted = false, display = "inline-block") {
+    const self = this;
     this.object = object;
 
     /* if no where is provided, put it at the end of the panel panel - assuming there is one */
     if (!where) {
-        where=panel();
+        where = panel();
     }
 
     this.div = InputHelpers.makeBoxDiv({ width: width, flex: widthdiv>1 }, where);
     InputHelpers.makeHead(object.name, this.div, { tight: true });
-    if (widthdiv>1) InputHelpers.makeFlexBreak(this.div);
+    if (widthdiv > 1) InputHelpers.makeFlexBreak(this.div);
+
     this.sliders = object.params.map(function(param) {
-      let slider = new InputHelpers.LabelSlider(param.name, {
+      const slider = new InputHelpers.LabelSlider(param.name, {
         where: self.div,
         width: (width / widthdiv) - 20,
         min: param.min,
         max: param.max,
-        step: param.step ? param.step : ((param.max - param.min) / 30),
+        step: param.step ?? ((param.max - param.min) / 30),
         initial: param.initial,
-        id: object.name + "-" + param.name
+        id: object.name + "-" + param.name,
+        adjusted: adjusted,
+        display: display,
       });
       return slider;
     });
+
     this.sliders.forEach(function(sl) {
       sl.oninput = function() {
         self.update();
       };
     });
+
     this.update();
   }
   update() {
-    let vals = this.sliders.map(sl => Number(sl.value()));
+    const vals = this.sliders.map(sl => Number(sl.value()));
     this.object.update(vals);
   }
 

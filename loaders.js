@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+/*jshint esversion: 11 */
 // @ts-check
 
 /**
@@ -20,14 +20,14 @@ import { OBJLoader } from "../CS559-Three/examples/jsm/loaders/OBJLoader.js";
  */
 function normObject(obj, scale = 1.0, center = true, ground = true) {
   // since other bounding box things aren't reliable
-  let box = new T.Box3();
+  const box = new T.Box3();
   box.setFromObject(obj);
   // easier than vector subtract
-  let dx = box.max.x - box.min.x;
-  let dy = box.max.y - box.min.y;
-  let dz = box.max.z - box.min.z;
-  let size = Math.max(dx, dy, dz);
-  let s = scale / size;
+  const dx = box.max.x - box.min.x;
+  const dy = box.max.y - box.min.y;
+  const dz = box.max.z - box.min.z;
+  const size = Math.max(dx, dy, dz);
+  const s = scale / size;
   obj.scale.set(s, s, s);
 
   if (center) {
@@ -76,15 +76,16 @@ export class ObjGrObject extends GrObject {
       throw "No OBJ given!";
     }
 
-    let name = params.name || `Objfile(${params.obj})`;
-    let objholder = new T.Group();
+    const name = params.name || `Objfile(${params.obj})`;
+    const objholder = new T.Group();
 
     super(name, objholder);
-    let self=this;
+    const self = this;
 
     // if there is a material, load it first, and then have that load the OBJ file
     if (params.mtl) {
-      let mtloader = new MTLLoader();
+      const mtloader = new MTLLoader();
+
       if (params.mtloptions) {
         mtloader.setMaterialOptions(params.mtloptions);
       }
@@ -92,26 +93,31 @@ export class ObjGrObject extends GrObject {
       // note that the callback then calls the Obj Loader
       mtloader.load(params.mtl, function(myMaterialCreator) {
         myMaterialCreator.preload();
-        let objLoader = new OBJLoader();
+
+        const objLoader = new OBJLoader();
         objLoader.setMaterials(myMaterialCreator);
+        
         objLoader.load(params.obj, function(obj) {
           if (params.norm) normObject(obj, params.norm);
           objholder.add(obj);
           if (params.callback) params.callback(self);
         });
       });
+
     } else {
       // no material file, just an obj
-      let objLoader = new OBJLoader();
+      const objLoader = new OBJLoader();
+
       objLoader.load(params.obj, function(obj) {
         if (params.norm) normObject(obj, params.norm);
         objholder.add(obj);
         if (params.callback) params.callback(self);
-    });
+      });
+
     }
-    objholder.translateX(params.x || 0);
-    objholder.translateY(params.y || 0);
-    objholder.translateZ(params.z || 0);
+    objholder.translateX(Number(params.x) || 0);
+    objholder.translateY(Number(params.y) || 0);
+    objholder.translateZ(Number(params.z) || 0);
   }
 }
 
@@ -133,19 +139,21 @@ export class FbxGrObject extends GrObject {
    * @property {LoaderCallback} [params.callback]
    */
   constructor(params = {}) {
-    let name = params.name || `FBXfile(${params.fbx})`;
-    let objholder = new T.Group();
+    const name = params.name || `FBXfile(${params.fbx})`;
+    const objholder = new T.Group();
     super(name, objholder);
-    let self=this;
+    const self = this;
 
-    let fbx = new FBXLoader();
+    const fbx = new FBXLoader();
+    
     fbx.load(params.fbx, function(obj) {
       if (params.norm) normObject(obj, params.norm);
       objholder.add(obj);
       if (params.callback) params.callback(self);
     });
-    objholder.translateX(params.x || 0);
-    objholder.translateY(params.y || 0);
-    objholder.translateZ(params.z || 0);
+
+    objholder.translateX(Number(params.x) || 0);
+    objholder.translateY(Number(params.y) || 0);
+    objholder.translateZ(Number(params.z) || 0);
   }
 }

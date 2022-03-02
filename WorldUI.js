@@ -1,4 +1,4 @@
-/*jshint esversion: 10 */
+/*jshint esversion: 11 */
 // @ts-check
 
 /**
@@ -23,7 +23,7 @@ function remoteButton(button, url, world, where) {
     // inspired by on https://blog.avenuecode.com/lazy-loading-es2015-modules-in-the-browser
     // refer to...
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import
-    let but = InputHelpers.makeButton(button,where);
+    const but = InputHelpers.makeButton(button, where);
     but.onclick = function() {
         /* jshint ignore:start */
         import(url)
@@ -57,7 +57,7 @@ export class WorldUI {
      * @param {InputHelpers.WhereSpec} [where] - where to place the panel in the DOM (at the end of the page by default)
      */
     constructor(world, width = 500, where = undefined, grading=true) {
-        let self = this;
+        const self = this;
         this.world = world;
 
         /* if no where is provided, put it at the end of the panel panel - assuming there is one */
@@ -65,14 +65,13 @@ export class WorldUI {
             where = panel();
         }
 
-
         this.div = InputHelpers.makeBoxDiv({ width: width }, where);
         this.div.id = "world-ui-div";
         InputHelpers.makeHead("World Controls", this.div, { tight: true });
 
         // because in some cases, we lose this (because of scoping issues), make a variable
         // that reliably refers to the world
-        let _world = this.world;
+        const _world = this.world;
 
         // run control
         this.runbutton = InputHelpers.makeCheckbox("Run", this.div);
@@ -135,7 +134,7 @@ export class WorldUI {
 
         // create object selector for rideable
         InputHelpers.makeSpan("Drive:", this.div);
-        let rideable = world.objects.filter(obj => obj.rideable);
+        const rideable = world.objects.filter(obj => obj.rideable);
         this.selectRideable = InputHelpers.makeSelect(
             rideable.map(ob => ob.name),
             this.div
@@ -168,12 +167,12 @@ export class WorldUI {
                 self.selectViewMode.value = "Orbit Camera";
             }
 
-            let name = event.target.value;
+            const name = event.target.value;
             _world.setActiveObject(name);
-            let obj = _world.objects.find(ob => ob.name === name);
-            let camparams = obj.lookFromLookAt();
+            const obj = _world.objects.find(ob => ob.name === name);
+            const camparams = obj.lookFromLookAt();
             world.camera.position.set(camparams[0], camparams[1], camparams[2]);
-            let lookAt = new T.Vector3(camparams[3], camparams[4], camparams[5]);
+            const lookAt = new T.Vector3(camparams[3], camparams[4], camparams[5]);
             world.camera.lookAt(lookAt);
             world.orbit_controls.target = new T.Vector3(
                 camparams[3],

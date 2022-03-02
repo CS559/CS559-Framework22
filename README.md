@@ -1,5 +1,7 @@
 # CS559 3D Framework (a.k.a. "Graphics Town")
 
+**This is the Spring 22 Version of the Framework!**
+
 This directory contains framework code to be used for the assignments for the
 CS559 (Computer Graphics) class at the University of Wisconsin.
 
@@ -15,9 +17,9 @@ In the Spring 2021 class, this is Workbook 8, page 7.
 
 If you want to read about the history of Graphics Town (prior to 2014) and see what the old C++ version was like, read [this](http://graphics.cs.wisc.edu/WP/cs559-fall2014/2014/11/07/project-2-graphics-town-framework-code/). If you want to see the original JavaScript framework, you can look [here](http://graphics.cs.wisc.edu/WP/cs559-fall2015/2015/10/15/project-program-group-2-graphics-town/) for a description. Yes, that really was all the documentation we gave to students.
 
-**WARNING:** This documentation is created using JSDoc, and I am not a JSDoc expert. You should also read the code directly. There may also be version skew between the documentation and the code. Trust the code.
+**WARNING:** The documentation is created using JSDoc, and I am not a JSDoc expert. You should also read the code directly. There may also be version skew between the documentation and the code. Trust the code.
 
-A version of the documentation is available on [GitHub Pages](https://cs559.github.io/CS559-Framework21-Docs/).
+A version of the documentation is available on [GitHub Pages](https://cs559.github.io/CS559-Framework21/). This is automatically built by GitHub (using continuous integration) and stored in a branch.
 
 ## What is this anyway?
 

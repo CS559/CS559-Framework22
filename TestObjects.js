@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+/*jshint esversion: 11 */
 // @ts-check
 
 /**
@@ -32,25 +32,27 @@ function degreesToRadians(deg) {
  */
 export class HingeCube extends GrObject {
   constructor() {
-    let group = new T.Group();
-    let box = new T.BoxGeometry(1, 0.5, 1);
-    let mesh1 = new T.Mesh(
-      box,
+    const group = new T.Group();
+    const geometry = new T.BoxGeometry(1, 0.5, 1);
+
+    const mesh1 = new T.Mesh(
+      geometry,
       new T.MeshStandardMaterial({ color: 0xa0a000 })
     );
     mesh1.position.y = 0.25;
-    group.add(mesh1);
 
-    let mesh2 = new T.Mesh(
-      box,
+    const mesh2 = new T.Mesh(
+      geometry,
       new T.MeshStandardMaterial({ color: 0xffff00 })
     );
-    // set group with origin at pivot point
-    let g2 = new T.Group();
-    g2.position.set(0, 0.5, -0.5);
-    g2.add(mesh2);
     mesh2.position.y = 0.25;
     mesh2.position.z = 0.5;
+
+    // set group with origin at pivot point
+    group.add(mesh1);
+    const g2 = new T.Group();
+    g2.position.set(0, 0.5, -0.5);
+    g2.add(mesh2);
     group.add(g2);
 
     super(`HingeCube-${testobjsctr++}`, group, [
@@ -93,7 +95,7 @@ const sleep = milliseconds => {
  */
 export class DelayTest extends GrObject {
   constructor() {
-    let group = new T.Group();
+    const group = new T.Group();
     super("Delay-Test", group);
     this.group = group;
     // use sleep, rather than OBJ loader
@@ -113,11 +115,11 @@ export class DelayTest extends GrObject {
  */
 export class BetterDelayTest extends GrObject {
   constructor() {
-    let group = new T.Group();
+    const group = new T.Group();
     super("Delay-Test", group);
     this.group = group;
     // make a cube that will be there temporarily
-    let tempCube = new T.Mesh(
+    const tempCube = new T.Mesh(
       new T.BoxGeometry(),
       new T.MeshStandardMaterial()
     );
@@ -140,14 +142,18 @@ export class BetterDelayTest extends GrObject {
  */
 export class MaterialDelayTest extends GrObject {
   constructor() {
-    let group = new T.Group();
+    const group = new T.Group();
     super("Delay-Test", group);
+
     this.material = new T.MeshStandardMaterial({ color: "white" });
     this.geometry = new T.TorusGeometry();
     this.mesh = new T.Mesh(this.geometry, this.material);
-    let self = this;
+
     group.add(this.mesh);
     group.position.x = -3;
+
+    const self = this;
+
     // use sleep, rather than OBJ loader
     sleep(1000).then(function() {
       // note: we can't use "this" because this isn't lexically scoped
@@ -157,7 +163,7 @@ export class MaterialDelayTest extends GrObject {
   }
 }
 
-class CheckSign extends GrObject {
+export class CheckSign extends GrObject {
   /**
    *
    * @param {Object} props
@@ -169,15 +175,16 @@ class CheckSign extends GrObject {
    * @param {number} [props.scale=1]
    * @param {THREE.Color | string | Number} [props.materialcolor]
    */
-  constructor(props) {
-    let group = new T.Group();
+  constructor(props = {}) {
+    const group = new T.Group();
     super("CheckSign1", group);
 
-    let geometry = new T.Geometry();
+    // let geometry = new T.Geometry();
+    const geometry = new T.BufferGeometry();
 
-    let nchecks = props.checks | 4;
-    let nverts = nchecks + 1;
-    let scale = props.scale > 0.0001 ? props.scale : 1; // disallow 0
+    const nchecks = props.checks ?? 4;
+    const nverts = nchecks + 1;
+    const scale = props.scale > 0.0001 ? props.scale : 1; // disallow 0
 
     let colortype;
     switch (props.colortype && props.colortype[0]) {
@@ -195,43 +202,52 @@ class CheckSign extends GrObject {
         colortype = T.VertexColors;
     }
 
+    const vertexIndex = []
+
     for (let i = 0; i < nverts + 1; i++) {
       for (let j = 0; j < nverts; j++) {
-        geometry.vertices.push(new T.Vector3(i, j, 0));
+        vertexIndex.push([i, j, 0]);
       }
     }
+
+    const vertices = []
+    const colors = []
+
     for (let i = 0; i < nchecks; i++) {
       for (let j = 0; j < nchecks; j++) {
-        let f1 = new T.Face3(
-          i * nverts + j,
-          i * nverts + j + 1,
-          (i + 1) * nverts + j
-        );
-        let f2 = new T.Face3(
-          i * nverts + j + 1,
-          (i + 1) * nverts + j + 1,
-          (i + 1) * nverts + j
-        );
+        vertices.push(...vertexIndex[i * nverts + j])
+        vertices.push(...vertexIndex[i * nverts + j + 1])
+        vertices.push(...vertexIndex[(i + 1) * nverts + j])
 
-        f1.color = new T.Color("red");
-        f2.vertexColors[0] = new T.Color(1, 0, 0);
-        f2.vertexColors[1] = new T.Color(1, 1, 1);
-        f2.vertexColors[2] = new T.Color(0, 0, 1);
+        vertices.push(...vertexIndex[i * nverts + j + 1])
+        vertices.push(...vertexIndex[(i + 1) * nverts + j + 1])
+        vertices.push(...vertexIndex[(i + 1) * nverts + j])
 
-        geometry.faces.push(f1);
-        geometry.faces.push(f2);
+        const faceColor1 = (new T.Color('red')).toArray()
+        
+        colors.push(...faceColor1);
+        colors.push(...faceColor1);
+        colors.push(...faceColor1);
+
+        colors.push(1, 0, 0);
+        colors.push(1, 1, 1);
+        colors.push(0, 0, 1);
       }
     }
-    geometry.computeFaceNormals();
 
-    let materialProps = { side: T.DoubleSide, vertexColors: colortype };
-    if (props.materialcolor) {
-      materialProps["color"] = props.materialcolor;
-    }
-    let material = new T.MeshStandardMaterial(materialProps);
-    console.log(materialProps);
+    geometry.setAttribute('position', new T.BufferAttribute(Float32Array.from(vertices), 3))
+    geometry.setAttribute('color', new T.BufferAttribute(Float32Array.from(colors), 3))
 
-    let mesh = new T.Mesh(geometry, material);
+    geometry.computeVertexNormals();
+
+    const materialProps = { 
+      side: T.DoubleSide, 
+      vertexColors: colortype 
+    };
+    if (props.materialcolor) materialProps["color"] = props.materialcolor;
+    const material = new T.MeshStandardMaterial(materialProps);
+
+    const mesh = new T.Mesh(geometry, material);
     // center at 0,0
     mesh.scale.set(scale, scale, scale);
     // warning - scale does not affect translation!
@@ -240,8 +256,8 @@ class CheckSign extends GrObject {
 
     group.add(mesh);
 
-    group.position.x = props.x | 0;
-    group.position.y = props.y | 0;
-    group.position.z = props.z | 0;
+    group.position.x = Number(props.x) || 0;
+    group.position.y = Number(props.y) || 0;
+    group.position.z = Number(props.z) || 0;
   }
 }

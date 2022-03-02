@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+/*jshint esversion: 11 */
 // @ts-check
 
 /**
@@ -24,9 +24,12 @@ import * as T from "../CS559-Three/build/three.module.js";
 import { OrbitControls } from "../CS559-Three/examples/jsm/controls/OrbitControls.js";
 import { FlyControls } from "../CS559-Three/examples/jsm/controls/FlyControls.js";
 
-alert("look at TODO in GrWorld");
+import { VRHelper } from './VRHelper.js'
+import Stats from './Stats.js'
 
-/** Things to do post 2021 
+// alert("look at TODO in GrWorld");
+
+/** Things to do post 2021  TODO
  * Better handling of rideable (let use controls)
  * Better documentation (make it so that GrObject parameters show up)
  * Convert to always use BufferGeometry (since Geometry is deprecated)
@@ -195,28 +198,6 @@ export class GrWorld {
             this.orbit_controls.keys = { UP: 87, BOTTOM: 83, LEFT: 65, RIGHT: 68 };
             this.orbit_controls.target = lookat;
 
-            // For some reason, this version of three is missing the saveState method.
-            // Hack in something here to at least save something.
-            let orbitSaveState = function () {
-                this.position0 = new T.Vector3(
-                    this.object.position.x,
-                    this.object.position.y,
-                    this.object.position.z
-                );
-                this.target0 = this.target;
-            };
-            let orbitReset = function () {
-                this.object.position.set(
-                    this.position0.x,
-                    this.position0.y,
-                    this.position0.z
-                );
-                this.target = this.target0;
-                this.update();
-            };
-            // @ts-ignore - we are adding the save state function
-            this.orbit_controls.saveState = orbitSaveState;
-            this.orbit_controls.reset = orbitReset;
             // We also want a pointer to active set of controls.
             this.active_controls = this.orbit_controls;
             this.fly_controls = new FlyControls(
@@ -626,6 +607,31 @@ export class GrWorld {
     }
 
     /**
+     * adds performance stats to the DOM
+     */
+    viewStats() {
+        this.stats = Stats();
+        this.stats.setMode(0);
+
+        this.stats.dom.style.position = 'absolute';
+        this.stats.dom.style.left = '0';
+        this.stats.dom.style.top = '0';
+        document.body.appendChild( this.stats.dom );
+    }
+
+    /**
+     * adds VR capability
+     */
+    enableVR() {
+        this.VRHelper = new VRHelper({
+            renderer: this.renderer,
+            scene: this.scene,
+            camera: this.camera,
+            flightSpeed: 10,
+        })
+    }
+
+    /**
      * draw the default camera to the default renderer
      */
     draw() {
@@ -677,6 +683,8 @@ export class GrWorld {
         else if ((this.view_mode == "Fly Camera") && this.fly_controls) {
             this.fly_controls.update(0.1);
         }
+        this.VRHelper?.update()
+
         if (callbacks.predraw) callbacks.predraw(this);
         this.draw();
         if (callbacks.postdraw) callbacks.postdraw(this);
@@ -696,12 +704,17 @@ export class GrWorld {
         // remember, this gets redefined (it doesn't follow scope rules)
         let self = this;
         function loop() {
+
+            self.stats?.begin()
+
             self.animate(callbacks);
 
             count += 1;
 
+            self.stats?.end()
+
             // self.draw();     // animate does the draw
-            window.requestAnimationFrame(loop);
+            self.renderer.setAnimationLoop(loop)
         }
         loop();
     }

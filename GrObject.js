@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+/*jshint esversion: 11 */
 // @ts-check
 
 /**
@@ -38,7 +38,14 @@ import * as T from "../CS559-Three/build/three.module.js";
  * @param {string|Array} param
  */
 export function paramObjFromParam(param) {
-  let paramObj = { name: "no name", min: 0, max: 1, initial: 0, step: 0 };
+  const paramObj = { 
+    name: "no name", 
+    min: 0, 
+    max: 1, 
+    initial: 0, 
+    step: 0 
+  };
+
   if (typeof param === "string") {
     paramObj.name = param;
   } else if (Array.isArray(param)) {
@@ -132,7 +139,7 @@ export class GrObject {
     // set up the object list
     if (Array.isArray(objectOrObjects)) {
       // we were given a list - do a deep copy
-      let objList = this.objects; // deal with the non-lexical this
+      const objList = this.objects; // deal with the non-lexical this
       objectOrObjects.forEach(function(obj) {
         objList.push(obj);
       });
@@ -148,10 +155,10 @@ export class GrObject {
     // we always convert to lightweight objects
     if (paramInfo) {
       // Totally OK to have none
-      let self = this;
+      const self = this;
       paramInfo.forEach(function(param) {
         // default values for the parameter in case we don't get any
-        let paramObj = paramObjFromParam(param);
+        const paramObj = paramObjFromParam(param);
         self.params.push(paramObj);
       });
     }
@@ -194,22 +201,22 @@ export class GrObject {
    * @returns {Array<Number>}
    */
   lookFromLookAt() {
-    let bbox = new T.Box3();
+    const bbox = new T.Box3();
     bbox.setFromObject(this.objects[0]);
-    let x = (bbox.max.x + bbox.min.x) / 2;
-    let y = (bbox.max.y + bbox.min.y) / 2;
-    let z = (bbox.max.z + bbox.min.z) / 2;
+    const x = (bbox.max.x + bbox.min.x) / 2;
+    const y = (bbox.max.y + bbox.min.y) / 2;
+    const z = (bbox.max.z + bbox.min.z) / 2;
 
     // make the box a little bigger to deal with think/small objects
-    let dx = bbox.max.x - x + 0.05;
-    let dy = bbox.max.y - y + 0.05;
-    let dz = bbox.max.z - z + 0.05;
+    const dx = bbox.max.x - x + 0.05;
+    const dy = bbox.max.y - y + 0.05;
+    const dz = bbox.max.z - z + 0.05;
 
-    let d = Math.max(dx, dy, dz);
+    const d = Math.max(dx, dy, dz);
 
-    let fx = x + d * 3;
-    let fy = y + d * 3;
-    let fz = z + d * 3;
+    const fx = x + d * 3;
+    const fy = y + d * 3;
+    const fz = z + d * 3;
 
     return [fx, fy, fz, x, y, z];
   }
@@ -224,10 +231,10 @@ export class GrObject {
    * @param {number} sy=0
    * @param {number} sz=0
    */
-  setScale(scale=1.0, sy=0, sz=0) {
-      let syy = sy || scale;
-      let szz = sz || scale;
-      this.objects.forEach(e => e.scale.set(scale,syy,szz));
+  setScale(scale = 1.0, sy = 0, sz = 0) {
+    const syy = sy || scale;
+    const szz = sz || scale;
+    this.objects.forEach(e => e.scale.set(scale, syy, szz));
   }
 
   /**
@@ -237,7 +244,7 @@ export class GrObject {
    * @param {number} y 
    * @param {number} z 
    */
-  setPos(x=0, y=0, z=0) {
+  setPos(x = 0, y = 0, z = 0) {
     this.objects.forEach(e => e.position.set(x,y,z));
   }
 }

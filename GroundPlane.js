@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+/*jshint esversion: 11 */
 // @ts-check
 
 /**
@@ -39,16 +39,16 @@ export class SimpleGroundPlane extends GrObject {
    */
   constructor(size = 5, thickness = 0.2, color = "white") {
     // we need to create the parts before we can call "super"
-    let geom = new T.BoxGeometry(size * 2, thickness, size * 2);
-    let material = new T.MeshStandardMaterial({ color: color, roughness: 0.9 });
-    let mesh = new T.Mesh(geom, material);
+    const geometry = new T.BoxGeometry(size * 2, thickness, size * 2);
+    const material = new T.MeshStandardMaterial({ color: color, roughness: 0.9 });
+    const mesh = new T.Mesh(geometry, material);
     numberOfGrounds += 1;
 
     // set up the base class
     super(`SimpleGroundPlane-${numberOfGrounds}`, mesh);
 
     // now we can set up "this" - we have to do this after we call super
-    this.geom = geom;
+    this.geom = geometry;
     this.material = material;
     this.mesh = mesh;
     this.size = size;
