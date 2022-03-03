@@ -8,9 +8,11 @@ CS559 (Computer Graphics) class at the University of Wisconsin.
 It provides a thin wrapper around the [THREE.JS](https://threejs.org/) library to make
 it more convenient to do class assignments.
 
-This is the 2021 version - which started with the 2020 version, which was based on the 2019 re-write of the code.
+This is the 2022 version - based on the 2021 version, which started with the 2020 version, which was based on the 2019 re-write of the code.
 There was a prior 2015 version (in "non-modern" JavaScript) that was used from 2015-2018.
 There were even older versions in C++, beginning from 2000, with the last C++ version in 2014.
+
+For 2022, the big change is that we switch to [THREE.JS](https://threejs.org/) r137 which was the latest version with available typing information when we had to commit to a version in class. Unlike the 2021 version, the new version of THREE deprecated old-style `Geometry` objects, so we have to switch everything to `BufferGeometry`.
 
 The closest thing to a tutorial for the Framework code is the first workbook/assignment that uses it.
 In the Spring 2021 class, this is Workbook 8, page 7.
