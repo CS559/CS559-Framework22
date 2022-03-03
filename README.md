@@ -21,7 +21,7 @@ If you want to read about the history of Graphics Town (prior to 2014) and see w
 
 **WARNING:** The documentation is created using JSDoc, and I am not a JSDoc expert. You should also read the code directly. There may also be version skew between the documentation and the code. Trust the code.
 
-A version of the documentation is available on [GitHub Pages](https://cs559.github.io/CS559-Framework21/). This is automatically built by GitHub (using continuous integration) and stored in a branch.
+A version of the documentation is available on [GitHub Pages](https://cs559.github.io/CS559-Framework/). This is automatically built by GitHub (using continuous integration) and stored in a branch.
 
 ## What is this anyway?
 
