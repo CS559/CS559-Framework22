@@ -28,7 +28,7 @@ let simpleObjectCounter = 0;
  * @property {number} [y=0]
  * @property {number} [z=0]
  * @property {number} [size=1]
- * @property {number} [widthSegments=8] - only for Sphere
+ * @property {number} [widthSegments=8] - only for Sphere, Cone, Cylinder
  * @property {number} [heightSegments=6] - only for Sphere
  */
 
@@ -273,6 +273,34 @@ export class GrCylinder extends GrObject {
         const geometry = new T.CylinderBufferGeometry(
           params.top ?? radius,
           params.bottom ?? radius,
+          params.height ?? 1.0,
+          params.widthSegments ?? 8,
+          params.heightSegments ?? 6
+        )
+        
+        // note that we have to make the Object3D before we can call
+        // super and we have to call super before we can use this
+        const mesh = new T.Mesh(geometry, material);
+        super(`Sphere-${simpleObjectCounter++}`, mesh, paramInfo);
+
+        // put the object in its place
+        mesh.position.x = Number(params.x) || 0;
+        mesh.position.y = Number(params.y) || 0;
+        mesh.position.z = Number(params.z) || 0;
+    }
+}
+
+export class GrCone extends GrObject {
+    /**
+     * 
+     * @param {*} params 
+     * @param {Array<string|Array>} [paramInfo]
+     */
+    constructor(params = {}, paramInfo = []) {
+        const material = params.material ?? new T.MeshStandardMaterial({ color: params.color ?? '#FF8888' });
+        const radius = params.radius ?? 1;
+        const geometry = new T.ConeBufferGeometry(
+          radius,
           params.height ?? 1.0,
           params.widthSegments ?? 8,
           params.heightSegments ?? 6
