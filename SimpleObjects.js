@@ -106,95 +106,109 @@ export class GrSphere extends GrObject {
   }
 }
 
-/**
- * A simple object: a rectangle/square (flat) - useful for making signs
- */
+
 export class GrSquareSign extends GrObject {
-  /*
-  constructor(params = {}, paramInfo = []) {
-    const materialProps = {
-      side: T.DoubleSide,
-      color: params.color ?? 0xff8888,
-    } 
-    if (params.map) materialProps.map = params.map;
-    const material = params.material ?? new T.MeshStandardMaterial(materialProps)
-    const size = params.size ?? 0.5;
-    const geometry = new T.PlaneBufferGeometry(size, size);
-    
-
-    // note that we have to make the Object3D before we can call
-    // super and we have to call super before we can use this
-    const mesh = new T.Mesh(geometry, material);
-    super(`SquareSign-${simpleObjectCounter++}`, mesh, paramInfo);
-
-    // put the object in its place
-    mesh.position.x = Number(params.x) || 0;
-    mesh.position.y = Number(params.y) || 0;
-    mesh.position.z = Number(params.z) || 0;
-    
-    this.mesh = mesh;
+    /**
+     * A flat "sign" square - this uses the build in THREE PlaneGeometry
+     * to make equivalent to other objects, we put zero in the center and
+     * use size for radius
+     * 
+     * @param {Object} [params]
+     * @param {string | number} [params.color]
+     * @param {THREE.Texture} [params.map]
+     * @param {THREE.Material} [params.material]
+     * @param {number} [params.x]
+     * @param {number} [params.y]
+     * @param {number} [params.z]
+     * @param {number} [params.size]
+     * @param {Array<string|Array>} [paramInfo ]
+     */
+    constructor(params = {}, paramInfo = []) {
+      const materialProps = {
+        side: T.DoubleSide,
+        color: params.color ?? 0xff8888,
+      } 
+      if (params.map) materialProps.map = params.map;
+      const material = params.material ?? new T.MeshStandardMaterial(materialProps)
+      const size = params.size ?? 0.5;
+      const geometry = new T.PlaneBufferGeometry(size*2, size*2);
+      
+  
+      // note that we have to make the Object3D before we can call
+      // super and we have to call super before we can use this
+      const mesh = new T.Mesh(geometry, material);
+      super(`SquareSign-${simpleObjectCounter++}`, mesh, paramInfo);
+  
+      // put the object in its place
+      mesh.position.x = Number(params.x) || 0 - size;
+      mesh.position.y = Number(params.y) || 0 - size;
+      mesh.position.z = Number(params.z) || 0;
+      
+      this.mesh = mesh;
+    }
   }
-  */
-
-  /**
-   *
-   * @param {Object} [params]
-   * @param {string | number} [params.color]
-   * @param {THREE.Texture} [params.map]
-   * @param {THREE.Material} [params.material]
-   * @param {number} [params.x]
-   * @param {number} [params.y]
-   * @param {number} [params.z]
-   * @param {number} [params.size]
-   * @param {Array<string|Array>} [paramInfo ]
-   */
-  constructor(params = {}, paramInfo = []) {
-
-    // make a square out of triangles
-    const size = params.size ?? 0.5;
-    const geometry = new T.BufferGeometry();
-    // set vertices
-    const vertices = new Float32Array([
-      -size, -size, 0,
-      size, -size, 0,
-      -size, size, 0,
-
-      size, -size, 0,
-      size, size, 0,
-      -size, size, 0,
-    ])
-    geometry.setAttribute('position', new T.BufferAttribute(vertices, 3))
-    geometry.computeVertexNormals();
-    // set uv grid
-    const uvs = new Float32Array([
-      0, 0,
-      1, 0,
-      0, 1,
-
-      1, 0,
-      1, 1,
-      0, 1
-    ])
-    geometry.setAttribute('uv', new T.BufferAttribute(uvs, 2))
-    // uv.needsUpdate = true;
-
-    const materialProps = {
-      side: T.DoubleSide,
-      color: params.color ?? 0xffffff,
-    } 
-    if (params.map) materialProps.map = params.map;
-    const material = params.material ?? new T.MeshStandardMaterial(materialProps)
-
-    const mesh = new T.Mesh(geometry, material);
-    super(`SquareSign-${simpleObjectCounter++}`, mesh, paramInfo);
-
-    // put the object in its place
-    mesh.position.x = Number(params.x) || 0;
-    mesh.position.y = Number(params.y) || 0;
-    mesh.position.z = Number(params.z) || 0;
+  
+  export class OldGrSquareSign extends GrObject {
+    /**
+     * A version of GrSquareSign that makes two independent triangles
+     * In some cases, this was preferred, but I don't remember why
+     * 
+     * @param {Object} [params]
+     * @param {string | number} [params.color]
+     * @param {THREE.Texture} [params.map]
+     * @param {THREE.Material} [params.material]
+     * @param {number} [params.x]
+     * @param {number} [params.y]
+     * @param {number} [params.z]
+     * @param {number} [params.size]
+     * @param {Array<string|Array>} [paramInfo ]
+     */
+    constructor(params = {}, paramInfo = []) {
+      // make a square out of triangles
+      const size = params.size ?? 0.5;
+      const geometry = new T.BufferGeometry();
+      // set vertices
+      const vertices = new Float32Array([
+        -size, -size, 0,
+        size, -size, 0,
+        -size, size, 0,
+  
+        size, -size, 0,
+        size, size, 0,
+        -size, size, 0,
+      ]);
+      geometry.setAttribute('position', new T.BufferAttribute(vertices, 3))
+      geometry.computeVertexNormals();
+      // set uv grid
+      const uvs = new Float32Array([
+        0, 0,
+        1, 0,
+        0, 1,
+  
+        1, 0,
+        1, 1,
+        0, 1
+      ]);
+      geometry.setAttribute('uv', new T.BufferAttribute(uvs, 2));
+      // uv.needsUpdate = true;
+  
+      const materialProps = {
+        side: T.DoubleSide,
+        color: params.color ?? 0xffffff,
+      } 
+      if (params.map) materialProps.map = params.map;
+      const material = params.material ?? new T.MeshStandardMaterial(materialProps)
+  
+      const mesh = new T.Mesh(geometry, material);
+      super(`SquareSign-${simpleObjectCounter++}`, mesh, paramInfo);
+  
+      // put the object in its place
+      mesh.position.x = Number(params.x) || 0;
+      mesh.position.y = Number(params.y) || 0;
+      mesh.position.z = Number(params.z) || 0;
+    }
   }
-}
-
+  
 /**
  * A "simple" object (TorusKnot) - this is built into THREE, so the code here is simple,
  * but the object itself has non-simple appearance
