@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: SimpleObjects</title>
+    <title>JSDoc: Class: OldGrSquareSign</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: SimpleObjects</h1>
+    <h1 class="page-title">Class: OldGrSquareSign</h1>
 
     
 
@@ -28,8 +28,8 @@
 
 <header>
     
-        
-            
+        <h2><span class="attribs"><span class="type-signature"></span></span>
+            <span class="ancestors"><a href="module-SimpleObjects.html">SimpleObjects</a>.</span>OldGrSquareSign<span class="signature">(params<span class="signature-attributes">opt</span>, paramInfo<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -38,170 +38,34 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>CS559 3D World Framework Code</p>
-<p>Simple Example Objects - they don't do much, but for convenience they
-provide wrappers around THREE objects</p></div>
-        
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
 
     
 
     
-
+    <h4 class="name" id="OldGrSquareSign"><span class="type-signature"></span>new OldGrSquareSign<span class="signature">(params<span class="signature-attributes">opt</span>, paramInfo<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SimpleObjects.js.html">SimpleObjects.js</a>, <a href="SimpleObjects.js.html#line4">line 4</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="module-SimpleObjects.GrCone.html">GrCone</a></dt>
-            <dd></dd>
-        
-            <dt><a href="module-SimpleObjects.GrCube.html">GrCube</a></dt>
-            <dd></dd>
-        
-            <dt><a href="module-SimpleObjects.GrCylinder.html">GrCylinder</a></dt>
-            <dd></dd>
-        
-            <dt><a href="module-SimpleObjects.GrGroup.html">GrGroup</a></dt>
-            <dd></dd>
-        
-            <dt><a href="module-SimpleObjects.GrSphere.html">GrSphere</a></dt>
-            <dd></dd>
-        
-            <dt><a href="module-SimpleObjects.GrSquareSign.html">GrSquareSign</a></dt>
-            <dd></dd>
-        
-            <dt><a href="module-SimpleObjects.GrTorusKnot.html">GrTorusKnot</a></dt>
-            <dd></dd>
-        
-            <dt><a href="module-SimpleObjects.OldGrSquareSign.html">OldGrSquareSign</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Type Definitions</h3>
-
-        
-                
-<h4 class="name" id="~CubeProperties">CubeProperties</h4>
-
 
 
 
 <div class="description">
-    <p>we pass a set of properties to a cube to allow for flexible parameters</p>
+    <p>A version of GrSquareSign that makes two independent triangles
+In some cases, this was preferred, but I don't remember why</p>
 </div>
 
 
 
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
-
-
-        </li>
-    </ul>
 
 
 
 
 
-    <h5 class="subsection-title">Properties:</h5>
 
+    <h5>Parameters:</h5>
     
 
-<table class="props">
+<table class="params">
     <thead>
     <tr>
         
@@ -215,8 +79,6 @@ provide wrappers around THREE objects</p></div>
         
 
         
-        <th>Default</th>
-        
 
         <th class="last">Description</th>
     </tr>
@@ -227,13 +89,13 @@ provide wrappers around THREE objects</p></div>
 
         <tr>
             
-                <td class="name"><code>material</code></td>
+                <td class="name"><code>params</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">THREE.Material</span>
+<span class="param-type">Object</span>
 
 
             
@@ -246,18 +108,37 @@ provide wrappers around THREE objects</p></div>
                 
 
                 
-                </td>
-            
 
-            
-                <td class="default">
                 
                 </td>
             
 
-            <td class="description last"></td>
-        </tr>
+            
 
+            <td class="description last">
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
     
 
         <tr>
@@ -284,13 +165,77 @@ provide wrappers around THREE objects</p></div>
                 
 
                 
+
+                
                 </td>
             
 
             
-                <td class="default">
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>map</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">THREE.Texture</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
                 
                 </td>
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>material</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">THREE.Material</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
             
 
             <td class="description last"></td>
@@ -319,15 +264,11 @@ provide wrappers around THREE objects</p></div>
                 
 
                 
+
+                
                 </td>
             
 
-            
-                <td class="default">
-                
-                    0
-                
-                </td>
             
 
             <td class="description last"></td>
@@ -356,15 +297,11 @@ provide wrappers around THREE objects</p></div>
                 
 
                 
+
+                
                 </td>
             
 
-            
-                <td class="default">
-                
-                    0
-                
-                </td>
             
 
             <td class="description last"></td>
@@ -393,15 +330,11 @@ provide wrappers around THREE objects</p></div>
                 
 
                 
+
+                
                 </td>
             
 
-            
-                <td class="default">
-                
-                    0
-                
-                </td>
             
 
             <td class="description last"></td>
@@ -430,68 +363,34 @@ provide wrappers around THREE objects</p></div>
                 
 
                 
+
+                
                 </td>
             
 
-            
-                <td class="default">
-                
-                    1
-                
-                </td>
             
 
             <td class="description last"></td>
         </tr>
 
     
+    </tbody>
+</table>
 
-        <tr>
-            
-                <td class="name"><code>widthSegments</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">number</span>
-
-
-            
             </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                    8
-                
-                </td>
-            
-
-            <td class="description last"><p>only for Sphere, Cone, Cylinder</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>heightSegments</code></td>
+                <td class="name"><code>paramInfo</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">number</span>
+<span class="param-type">Array.&lt;(string|Array)></span>
 
 
             
@@ -504,23 +403,21 @@ provide wrappers around THREE objects</p></div>
                 
 
                 
-                </td>
-            
 
-            
-                <td class="default">
-                
-                    6
                 
                 </td>
             
 
-            <td class="description last"><p>only for Sphere</p></td>
+            
+
+            <td class="description last"></td>
         </tr>
 
     
     </tbody>
 </table>
+
+
 
 
 
@@ -554,7 +451,7 @@ provide wrappers around THREE objects</p></div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="SimpleObjects.js.html">SimpleObjects.js</a>, <a href="SimpleObjects.js.html#line20">line 20</a>
+        <a href="SimpleObjects.js.html">SimpleObjects.js</a>, <a href="SimpleObjects.js.html#line166">line 166</a>
     </li></ul></dd>
     
 
@@ -570,7 +467,39 @@ provide wrappers around THREE objects</p></div>
 
 
 
-            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
     
 
     
