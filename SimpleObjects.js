@@ -109,7 +109,7 @@ export class GrSphere extends GrObject {
 
 export class GrSquareSign extends GrObject {
     /**
-     * A flat "sign" square - this uses the build in THREE PlaneGeometry
+     * A flat "sign" square - this uses the built in THREE PlaneGeometry
      * to make equivalent to other objects, we put zero in the center and
      * use size for radius
      * 
