@@ -12,6 +12,7 @@ import { GrObject } from "./GrObject.js";
 import { FBXLoader } from "../CS559-Three/examples/jsm/loaders/FBXLoader.js";
 import { MTLLoader } from "../CS559-Three/examples/jsm/loaders/MTLLoader.js";
 import { OBJLoader } from "../CS559-Three/examples/jsm/loaders/OBJLoader.js";
+import { GrCube} from "./SimpleObjects.js";
 
 /**
  * Rescale an object - assumes that the object is a group with 1 mesh in it
@@ -124,7 +125,11 @@ export class ObjGrObject extends GrObject {
 /** 
  * load from an FBX file - this is quite simple 
  * it makes a group so it can stick the FBX object in once
- * it is loaded
+ * it is loaded.
+ * 
+ * Note: if the loading fails, an error is printed in the console
+ * and a red cube is made instead of the loaded object. 
+ * (added May 2022)
  * */
 export class FbxGrObject extends GrObject {
   /**
@@ -146,11 +151,23 @@ export class FbxGrObject extends GrObject {
 
     const fbx = new FBXLoader();
     
-    fbx.load(params.fbx, function(obj) {
-      if (params.norm) normObject(obj, params.norm);
-      objholder.add(obj);
-      if (params.callback) params.callback(self);
-    });
+    fbx.load(params.fbx, 
+        function(obj) { /* loaded callback */ 
+            if (params.norm) normObject(obj, params.norm);
+            objholder.add(obj);
+            if (params.callback) params.callback(self);
+            },
+        undefined, /* progress callback */
+        function(error) {  /* error callback */
+            console.log(error);
+            // put a dummy object in as an error warning
+            let tempGr = new GrCube({color:"red"});
+            let obj = tempGr.objects[0];
+            if (params.norm) normObject(obj, params.norm);
+            objholder.add(obj);
+            if (params.callback) params.callback(self);
+        }
+        );
 
     objholder.translateX(Number(params.x) || 0);
     objholder.translateY(Number(params.y) || 0);
